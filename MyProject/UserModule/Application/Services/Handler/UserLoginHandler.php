@@ -4,16 +4,14 @@
 namespace MyProject\UserModule\Application\Services\Handler;
 
 
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use MyProject\CommonModule\CommonException\ProblemWithDatabase;
 use MyProject\CommonModule\CommonHandler\Interfaces\ResultHandlerInterface;
 use MyProject\CommonModule\JWT\JwtDecorator;
-use MyProject\UserModule\Application\Services\Exception\UserLoginVerifyException;
-use MyProject\UserModule\Application\Services\Query\UserLogin;
+use MyProject\UserModule\Application\Exception\UserLoginVerifyException;
+use MyProject\UserModule\Application\Query\UserLogin;
 use MyProject\UserModule\Infrastructure\Interfaces\UsersRepositoryInterface;
-use MyProject\UserModule\Models\User;
+use MyProject\UserModule\Infrastructure\Models\User;
 
 class UserLoginHandler
 {
@@ -52,20 +50,41 @@ class UserLoginHandler
     public function handle(UserLogin $query): ResultHandlerInterface
     {
         try {
-            $user = $this->usersRepository->getUserByEmail($query->getEmail());
+            $user = $this->usersRepository->getByEmail($query->getEmail());
 
-            if (!Hash::check($query->getPassword(), $user->password)) {
-                throw new UserLoginVerifyException();
-            }
+            $this->userEmpty($user);
+            $this->userLoginVerify($query->getPassword(), $user->password);
 
             $this->resultHandler->setResult(JwtDecorator::createToken($user->jwtToArray()));
-        } catch (QueryException $e) {
-            Log::error($e->getMessage() . $e->getTraceAsString());
-            $this->resultHandler->setErrors(["database" => ["Problem with database try later."]])->setCodeError();
+        } catch (ProblemWithDatabase $e) {
+            $this->resultHandler->setErrors($e->getError())->setCodeError();
         } catch (UserLoginVerifyException $e) {
             $this->resultHandler->setErrors($e->getError())->setCodeError(401);
         }
 
         return $this->resultHandler;
+    }
+
+    /**
+     * @param User $user
+     * @throws ProblemWithDatabase
+     */
+    private function userEmpty(User $user): void
+    {
+        if (empty($user)) {
+            throw new ProblemWithDatabase();
+        }
+    }
+
+    /**
+     * @param string $queryPassword
+     * @param string $userPassword
+     * @throws UserLoginVerifyException
+     */
+    private function userLoginVerify(string $queryPassword, string $userPassword): void
+    {
+        if (!Hash::check($queryPassword, $userPassword)) {
+            throw new UserLoginVerifyException();
+        }
     }
 }

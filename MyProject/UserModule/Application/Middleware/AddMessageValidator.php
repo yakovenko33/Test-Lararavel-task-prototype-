@@ -1,13 +1,13 @@
 <?php
 
 
-namespace MyProject\UserModule\Application\Services\Middleware\UserRegister;
+namespace MyProject\UserModule\Application\Middleware;
 
 
 use League\Tactician\Middleware;
 use MyProject\CommonModule\Validator\ValidatorRoot;
 
-class UserRegisterValidator extends ValidatorRoot implements Middleware
+class AddMessageValidator extends ValidatorRoot implements Middleware
 {
     /**
      * @param object $command
@@ -25,8 +25,8 @@ class UserRegisterValidator extends ValidatorRoot implements Middleware
     protected function getRules(): array
     {
         return [
-            'email' => 'required|string|max:50|unique:users,email|',
-            'password' => 'required|string|max:50|',
+            'jwt_token' => 'required|string',
+            'message' => 'required|string|max:250|',
         ];
     }
 }

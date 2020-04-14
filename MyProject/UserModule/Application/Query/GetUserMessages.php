@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MyProject\UserModule\Application\Services\Query;
+namespace MyProject\UserModule\Application\Query;
 
 
 use MyProject\CommonModule\JWT\Command\VerifyCommandQuery;
@@ -9,12 +9,12 @@ use MyProject\CommonModule\JWT\Command\VerifyCommandQuery;
 class GetUserMessages extends VerifyCommandQuery
 {
     /**
-     * GetUserMessagesHandler constructor.
-     * @param string|null $jwtToken
+     * GetUserMessages constructor.
+     * @param array $data
      */
-    public function __construct(string $jwtToken = null)
+    public function __construct(array $data = [])
     {
-        parent::__construct($jwtToken);
+        parent::__construct($data["jwt_token"]);
     }
 
     /**

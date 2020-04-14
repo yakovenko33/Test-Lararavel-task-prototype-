@@ -4,11 +4,10 @@
 namespace MyProject\UserModule\Application\Services\Handler;
 
 
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Log;
+use MyProject\CommonModule\CommonException\ProblemWithDatabase;
 use MyProject\CommonModule\CommonHandler\Interfaces\ResultHandlerInterface;
-use MyProject\UserModule\Application\Services\Command\AddMessage;
-use MyProject\UserModule\Models\Message;
+use MyProject\UserModule\Application\Command\AddMessage;
+use MyProject\UserModule\Infrastructure\Interfaces\MessagesRepositoryInterface;
 
 class AddMessageHandler
 {
@@ -18,12 +17,21 @@ class AddMessageHandler
     private $resultHandler;
 
     /**
-     * UserLoginHandler constructor.
-     * @param ResultHandlerInterface $resultHandler
+     * @var
      */
-    public function __construct(ResultHandlerInterface $resultHandler)
-    {
+    private $messagesRepository;
+
+    /**
+     * AddMessageHandler constructor.
+     * @param ResultHandlerInterface $resultHandler
+     * @param MessagesRepositoryInterface $messagesRepository
+     */
+    public function __construct(
+        ResultHandlerInterface $resultHandler,
+        MessagesRepositoryInterface $messagesRepository
+    ) {
         $this->resultHandler = $resultHandler;
+        $this->messagesRepository = $messagesRepository;
     }
 
     /**
@@ -32,37 +40,18 @@ class AddMessageHandler
      */
     public function handle(AddMessage $command): ResultHandlerInterface
     {
-        /*echo "<pre>";
-        var_dump([
-            'user_id' => $command->getUserId(),
-            'message' => $command->getMessage()
-        ]);
-        die;*/
         try {
-            echo "<pre>";
-            var_dump($this->addMessage($command));
-            die;
-            $this->resultHandler->setResult(['message_id' => $this->addMessage($command)]);
-        } catch (QueryException $e) {
-            Log::error($e->getMessage() . $e->getTraceAsString());
-            $this->resultHandler->setErrors(["database" => ["Problem with database try later."]])->setCodeError();
+            $message = $this->messagesRepository->insert($command->toArray());
+
+            if (empty($message)) {
+                throw new ProblemWithDatabase();
+            }
+
+            $this->resultHandler->setResult(['message_id' => $message->id]);
+        } catch (ProblemWithDatabase $e) {
+            $this->resultHandler->setErrors($e->getError())->setCodeError();
         }
 
         return $this->resultHandler;
-    }
-
-    /**
-     * @param AddMessage $command
-     * @return int
-     */
-    private function addMessage(AddMessage $command): int
-    {
-        $message = Message::create([
-            'user_id' => $command->getUserId(),
-            'text' => $command->getMessage()
-        ]);
-        $message->save();
-
-        return $message->id;
     }
 }

@@ -7,15 +7,15 @@ namespace MyProject\UserModule\UI\Controllers;
 use App\Http\Controllers\Controller;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use MyProject\CommonModule\Response\Response;
-use MyProject\UserModule\Application\Services\Command\UserRegister;
+use MyProject\UserModule\Application\Command\UserRegister;
 use MyProject\UserModule\Application\Services\Handler\UserLoginHandler;
 use MyProject\UserModule\Application\Services\Handler\UserRegisterHandler;
 use Illuminate\Http\Request;
-use MyProject\UserModule\Application\Services\Middleware\UserRegister\CheckPassword;
-use MyProject\UserModule\Application\Services\Middleware\UserLoginValidator;
-use MyProject\UserModule\Application\Services\Middleware\UserRegister\UserRegisterValidator;
+use MyProject\UserModule\Application\Middleware\UserRegister\CheckPassword;
+use MyProject\UserModule\Application\Middleware\UserLoginValidator;
+use MyProject\UserModule\Application\Middleware\UserRegister\UserRegisterValidator;
 use \Illuminate\Http\JsonResponse;
-use MyProject\UserModule\Application\Services\Query\UserLogin;
+use MyProject\UserModule\Application\Query\UserLogin;
 
 class UserController extends Controller
 {
@@ -39,7 +39,6 @@ class UserController extends Controller
      */
     public function test(): JsonResponse
     {
-        //Log::debug("UserController::test()");
         return response()->json(['UserController' => "test"], 200);
     }
 

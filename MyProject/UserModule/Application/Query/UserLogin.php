@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MyProject\UserModule\Application\Services\Query;
+namespace MyProject\UserModule\Application\Query;
 
 
 class UserLogin

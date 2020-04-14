@@ -1,17 +1,11 @@
 <?php
 
 
-namespace MyProject\UserModule\Application\Services\Command;
+namespace MyProject\UserModule\Application\Command;
 
-//use Illuminate\Foundation\Bus\Dispatchable;
-use MyProject\CommonModule\CommonHandler\CommandQuery;
-use MyProject\UserModule\Application\Validation\UserRegister as Validator;
-//use Illuminate\Contracts\Validation\Validator as Result;
 
-class UserRegister //extends CommandQuery
+class UserRegister
 {
-    //use Dispatchable;
-
     /**
      * @var string|null
      */
@@ -74,12 +68,4 @@ class UserRegister //extends CommandQuery
     {
         return $this->passwordRepeat;
     }
-
-    /**
-     * @return bool
-     */
-    /*public function checkPassword(): bool
-    {
-        return $this->password === $this->passwordRepeat;
-    }*/
 }

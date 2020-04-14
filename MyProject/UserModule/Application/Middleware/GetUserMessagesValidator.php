@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MyProject\UserModule\Application\Services\Middleware;
+namespace MyProject\UserModule\Application\Middleware;
 
 
 use League\Tactician\Middleware;

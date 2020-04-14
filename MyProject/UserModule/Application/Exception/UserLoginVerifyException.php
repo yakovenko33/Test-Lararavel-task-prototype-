@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MyProject\UserModule\Application\Services\Exception;
+namespace MyProject\UserModule\Application\Exception;
 
 
 use Throwable;

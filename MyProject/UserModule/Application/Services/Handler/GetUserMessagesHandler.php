@@ -4,11 +4,10 @@
 namespace MyProject\UserModule\Application\Services\Handler;
 
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Log;
+use MyProject\CommonModule\CommonException\ProblemWithDatabase;
 use MyProject\CommonModule\CommonHandler\Interfaces\ResultHandlerInterface;
-use MyProject\UserModule\Application\Services\Query\GetUserMessages;
+use MyProject\UserModule\Application\Query\GetUserMessages;
+use MyProject\UserModule\Infrastructure\Interfaces\MessagesRepositoryInterface;
 
 class GetUserMessagesHandler
 {
@@ -18,12 +17,21 @@ class GetUserMessagesHandler
     private $resultHandler;
 
     /**
-     * UserLoginHandler constructor.
-     * @param ResultHandlerInterface $resultHandler
+     * @var MessagesRepositoryInterface
      */
-    public function __construct(ResultHandlerInterface $resultHandler)
-    {
+    private $messagesRepository;
+
+    /**
+     * GetUserMessagesHandler constructor.
+     * @param ResultHandlerInterface $resultHandler
+     * @param MessagesRepositoryInterface $messagesRepository
+     */
+    public function __construct(
+        ResultHandlerInterface $resultHandler,
+        MessagesRepositoryInterface $messagesRepository
+    ) {
         $this->resultHandler = $resultHandler;
+        $this->messagesRepository = $messagesRepository;
     }
 
     /**
@@ -33,19 +41,17 @@ class GetUserMessagesHandler
     public function handle(GetUserMessages $query): ResultHandlerInterface
     {
         try {
-            $this->resultHandler->setResult($this->getMessages($query->getUserId()));
-        } catch (QueryException $e) {
-            Log::error($e->getMessage() . $e->getTraceAsString());
-            $this->resultHandler->setErrors(["database" => ["Problem with database try later."]])->setCodeError();
-        }
-    }
+            $messages = $this->messagesRepository->getAllByUserId($query->getUserId());
 
-    /**
-     * @param int $userId
-     * @return Collection
-     */
-    private function getMessages(int $userId)
-    {
-        return Collection::make();
+            if(empty($messages)) {
+                throw new ProblemWithDatabase();
+            }
+
+            $this->resultHandler->setResult(["messages" => $messages->toArray()]);
+        } catch (ProblemWithDatabase $e) {
+            $this->resultHandler->setErrors($e->getError())->setCodeError();
+        }
+
+        return $this->resultHandler;
     }
 }

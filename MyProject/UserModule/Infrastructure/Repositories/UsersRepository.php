@@ -16,12 +16,12 @@ class UsersRepository implements UsersRepositoryInterface
      * @param array $data
      * @return User|null
      */
-    public function insertUser(array $data): ?User
+    public function insert(array $data): ?User
     {
         try {
             $user = User::create([
                 "email" => $data["email"],
-                "password" => $data["password"],
+                "password" => Hash::make($data["password"]),
                 "status" => User::STATUS_ACTIVE
             ]);
             $user->save();
@@ -37,7 +37,7 @@ class UsersRepository implements UsersRepositoryInterface
      * @param string $email
      * @return User
      */
-    public function getUserByEmail(string $email): ?User
+    public function getByEmail(string $email): ?User
     {
         try {
             $user = User::where("email", $email)->first();

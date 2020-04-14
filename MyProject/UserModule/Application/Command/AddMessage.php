@@ -1,11 +1,10 @@
 <?php
 
 
-namespace MyProject\UserModule\Application\Services\Command;
+namespace MyProject\UserModule\Application\Command;
 
 
 use MyProject\CommonModule\JWT\Command\VerifyCommandQuery;
-
 
 class AddMessage extends VerifyCommandQuery
 {
@@ -39,7 +38,8 @@ class AddMessage extends VerifyCommandQuery
     {
         return [
             'message' => $this->message,
-            'jwt_token' => $this->jwtToken
+            'jwt_token' => $this->jwtToken,
+            'user_id' => $this->userId
         ];
     }
 }
