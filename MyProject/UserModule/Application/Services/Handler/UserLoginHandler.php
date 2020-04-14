@@ -55,11 +55,13 @@ class UserLoginHandler
             $this->userEmpty($user);
             $this->userLoginVerify($query->getPassword(), $user->password);
 
-            $this->resultHandler->setResult(JwtDecorator::createToken($user->jwtToArray()));
+            $this->resultHandler
+                ->setResult(["jwt_token" => JwtDecorator::createToken($user->jwtToArray())])
+                ->setCode(200);
         } catch (ProblemWithDatabase $e) {
-            $this->resultHandler->setErrors($e->getError())->setCodeError();
+            $this->resultHandler->setErrors($e->getError())->setCode(500);
         } catch (UserLoginVerifyException $e) {
-            $this->resultHandler->setErrors($e->getError())->setCodeError(401);
+            $this->resultHandler->setErrors($e->getError())->setCode(401);
         }
 
         return $this->resultHandler;

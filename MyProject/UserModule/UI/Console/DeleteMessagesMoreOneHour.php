@@ -5,7 +5,6 @@ namespace MyProject\UserModule\UI\Console;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use MyProject\UserModule\Infrastructure\Interfaces\MessagesRepositoryInterface;
 
 class DeleteMessagesMoreOneHour extends Command
@@ -47,12 +46,7 @@ class DeleteMessagesMoreOneHour extends Command
         $start = new Carbon();
 
         $this->info('Start delete messages from messages table');
-        Log::debug('Start delete messages from messages table');
-        Log::debug(Carbon::now());
-        //$this->messagesRepository->deleteMoreOneHour(); // work change timezone
-        Log::debug(Carbon::parse(Carbon::now())->subHour());
-        Log::debug("End delete messages from messages. Execute time: {$start->diffInSeconds()} sec");
-        //$this->bus->handle(new Request($this->option('force')));
+        $this->messagesRepository->deleteMoreOneHour();
         $this->info("End delete messages from messages. Execute time: {$start->diffInSeconds()} sec");
     }
 }

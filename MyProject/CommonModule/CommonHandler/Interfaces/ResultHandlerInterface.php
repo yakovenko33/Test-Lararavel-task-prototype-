@@ -18,14 +18,15 @@ interface ResultHandlerInterface
     public function getErrors(): array;
 
     /**
-     * @param mixed $result
+     * @param array $result
+     * @return ResultHandlerInterface
      */
-    public function setResult($result): void;
+    public function setResult(array $result): ResultHandlerInterface;
 
     /**
      * @return mixed
      */
-    public function getResult();
+    public function getResult(): array;
 
     /**
      * @return bool
@@ -36,10 +37,10 @@ interface ResultHandlerInterface
      * @param int $code
      * @return ResultHandlerInterface
      */
-    public function setCodeError(int $code = 500): ResultHandlerInterface;
+    public function setCode(int $code = 200): ResultHandlerInterface;
 
     /**
      * @return int
      */
-    public function getCodeError(): int;
+    public function getCode(): int;
 }

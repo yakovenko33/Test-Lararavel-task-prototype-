@@ -33,8 +33,8 @@ class ValidatorRoot
         $validator = $this->make($data);
         if ($validator->fails()) {
             $this->resultHandler
-                ->setErrors($validator->errors()->messages())
-                ->setCodeError(400);
+                ->setErrors($validator->errors()->getMessages())
+                ->setCode(400);
 
             return false;
         }

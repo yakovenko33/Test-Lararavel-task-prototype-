@@ -48,9 +48,9 @@ class UserRegisterHandler
                 throw new ProblemWithDatabase();
             }
 
-            $this->resultHandler->setResult(["user_id" => $user->id]);
+            $this->resultHandler->setResult(["user_id" => $user->id])->setCode(201);
         } catch (ProblemWithDatabase $e) {
-            $this->resultHandler->setErrors($e->getError())->setCodeError();
+            $this->resultHandler->setErrors($e->getError())->setCode(500);
         }
 
         return $this->resultHandler;

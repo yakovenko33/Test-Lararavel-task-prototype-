@@ -38,7 +38,7 @@ class JwtVerifyUser implements Middleware
         } catch (\Exception $e) {
             $this->resultHandler
                 ->setErrors(["authorization" => ["User authorization failed."]])
-                ->setCodeError(401);
+                ->setCode(403);
 
             return $this->resultHandler;
         }

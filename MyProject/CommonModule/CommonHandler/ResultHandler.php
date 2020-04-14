@@ -14,7 +14,7 @@ class ResultHandler implements ResultHandlerInterface
     private $errors;
 
     /**
-     * @var mixed
+     * @var array
      */
     private $result;
 
@@ -43,17 +43,20 @@ class ResultHandler implements ResultHandlerInterface
     }
 
     /**
-     * @param mixed $result
+     * @param array $result
+     * @return ResultHandlerInterface
      */
-    public function setResult($result): void
+    public function setResult(array $result): ResultHandlerInterface
     {
         $this->result = $result;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getResult()
+    public function getResult(): array
     {
         return $this->result;
     }
@@ -70,7 +73,7 @@ class ResultHandler implements ResultHandlerInterface
      * @param int $code
      * @return ResultHandlerInterface
      */
-    public function setCodeError(int $code = 500): ResultHandlerInterface
+    public function setCode(int $code = 500): ResultHandlerInterface
     {
         $this->codeError = $code;
 
@@ -80,7 +83,7 @@ class ResultHandler implements ResultHandlerInterface
     /**
      * @return int
      */
-    public function getCodeError(): int
+    public function getCode(): int
     {
         return $this->codeError;
     }

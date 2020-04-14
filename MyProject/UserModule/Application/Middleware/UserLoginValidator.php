@@ -25,7 +25,7 @@ class UserLoginValidator extends ValidatorRoot implements Middleware
     protected function getRules(): array
     {
         return [
-            'email' => 'required|string|max:50|exists:users,email',
+            'email' => 'required|string|max:50|exists:users,email|email:rfc,dns',
             'password' => 'required|string|max:50|',
         ];
     }

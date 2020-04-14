@@ -32,7 +32,7 @@ class JwtDecorator
     private static function getDataForToken(array $data = []): array
     {
         return [
-            "iss" => env('ISS', 'test.com'), //$iss,
+            "iss" => env('ISS', 'test.com'),
             "aud" => env('AUD', 'test.com'),
             "iat" => env('IAT', 1356999524),
             "nbf" => env('NBF', 1357000000),

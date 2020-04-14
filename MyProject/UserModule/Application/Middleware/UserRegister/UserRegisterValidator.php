@@ -25,8 +25,9 @@ class UserRegisterValidator extends ValidatorRoot implements Middleware
     protected function getRules(): array
     {
         return [
-            'email' => 'required|string|max:50|unique:users,email|',
+            'email' => 'required|string|max:50|unique:users,email|email:rfc,dns',
             'password' => 'required|string|max:50|',
+            'password_repeat' => 'required|string|max:50|'
         ];
     }
 }

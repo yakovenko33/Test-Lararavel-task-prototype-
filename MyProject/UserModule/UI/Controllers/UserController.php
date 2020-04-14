@@ -35,14 +35,6 @@ class UserController extends Controller
     }
 
     /**
-     * @return JsonResponse
-     */
-    public function test(): JsonResponse
-    {
-        return response()->json(['UserController' => "test"], 200);
-    }
-
-    /**
      * @param Request $request
      * @return JsonResponse
      */
@@ -72,17 +64,5 @@ class UserController extends Controller
         );
 
         return $this->getResponse($resultHandler);
-    }
-
-    /**
-     * @return array
-     */
-    private function testData(): array
-    {
-        return [
-            "email" => "test@gmail.com",
-            "password" => "1234",
-            "password_repeat" => "1234"
-        ];
     }
 }

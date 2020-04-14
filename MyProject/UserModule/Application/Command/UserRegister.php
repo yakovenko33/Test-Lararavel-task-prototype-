@@ -30,7 +30,6 @@ class UserRegister
         $this->email = $data['email'];
         $this->password = $data['password'];
         $this->passwordRepeat = $data['password_repeat'];
-        //$this->validator = app()->make(Validator::class)->make($data);
     }
 
     /**

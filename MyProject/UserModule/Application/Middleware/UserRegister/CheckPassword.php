@@ -32,8 +32,8 @@ class CheckPassword implements Middleware
     {
         if (!($command->getPassword() === $command->getPasswordRepeat())) {
             $this->resultHandler
-                ->setErrors(["password_repeat" => ["Password and password_repeat are not equivalent"]])
-                ->setCodeError(400);
+                ->setErrors(["password_repeat" => ["Password and password_repeat are not equivalent."]])
+                ->setCode(400);
 
             return $this->resultHandler;
         }

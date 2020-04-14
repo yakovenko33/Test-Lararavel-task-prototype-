@@ -47,9 +47,9 @@ class AddMessageHandler
                 throw new ProblemWithDatabase();
             }
 
-            $this->resultHandler->setResult(['message_id' => $message->id]);
+            $this->resultHandler->setResult(['message_id' => $message->id])->setCode(201);
         } catch (ProblemWithDatabase $e) {
-            $this->resultHandler->setErrors($e->getError())->setCodeError();
+            $this->resultHandler->setErrors($e->getError())->setCode(500);
         }
 
         return $this->resultHandler;

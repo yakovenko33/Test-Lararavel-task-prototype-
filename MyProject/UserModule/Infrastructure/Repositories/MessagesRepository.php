@@ -24,7 +24,6 @@ class MessagesRepository implements MessagesRepositoryInterface
             $message = Message::create([
                 'user_id' => $data['user_id'],
                 'text' => $data['message'],
-                'created_at' => Carbon::now()
             ]);
             $message->save();
         } catch (QueryException $e) {

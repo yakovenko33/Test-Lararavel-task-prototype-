@@ -15,16 +15,11 @@ trait Response
      */
     protected function getResponse(ResultHandlerInterface $resultHandler): JsonResponse
     {
-        if ($resultHandler->hasErrors()) {
-            return response()->json([
-                "data" => $resultHandler->getErrors(),
-                'status' => 'errors'
-            ], $resultHandler->getCodeError());
-        }
+        $hasErrors = $resultHandler->hasErrors();
 
         return response()->json([
-            "data" => $resultHandler->getResult(),
-            'status' => 'success'
-        ], 200);
+            "data" => $hasErrors ? $resultHandler->getErrors() : $resultHandler->getResult(),
+            'status' => $hasErrors ? 'errors' : 'success'
+        ], $resultHandler->getCode());
     }
 }

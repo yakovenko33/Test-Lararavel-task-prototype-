@@ -47,9 +47,9 @@ class GetUserMessagesHandler
                 throw new ProblemWithDatabase();
             }
 
-            $this->resultHandler->setResult(["messages" => $messages->toArray()]);
+            $this->resultHandler->setResult(["messages" => $messages->toArray()])->setCode(200);
         } catch (ProblemWithDatabase $e) {
-            $this->resultHandler->setErrors($e->getError())->setCodeError();
+            $this->resultHandler->setErrors($e->getError())->setCode(500);
         }
 
         return $this->resultHandler;

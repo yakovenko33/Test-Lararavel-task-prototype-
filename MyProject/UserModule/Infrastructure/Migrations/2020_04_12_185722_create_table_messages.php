@@ -18,7 +18,7 @@ class CreateTableMessages extends Migration
                 $table->increments("id");
                 $table->unsignedInteger("user_id");
                 $table->string("text", 250);
-                $table->timestamp('created_at')->nullable();
+                $table->timestamp('created_at')->useCurrent();// //->nullable()
             });
         }
     }
