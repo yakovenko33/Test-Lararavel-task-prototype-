@@ -21,13 +21,16 @@ Domain Layer. Сам проект находиться в папке MyProject.
  репозитории, интерфейсы, а так же миграции для создания таблиц модуля.
 - Providers: храниться провайдер для модуля. 
 
-### Стэк
+### Пример работы UserModule модуля:
+![alt text](docs/UserModule/example.png)
+
+### Стэк:
 - php 7.2
 - MySql 5.6
 - Laravel
 - Eloquent ORM
 
-### Дополнительные библиотеки
+### Дополнительные библиотеки:
  - firebase/php-jwt (для работы с JWT);
  - joselfonseca/laravel-tactician (библиотека CommandBus);
 
