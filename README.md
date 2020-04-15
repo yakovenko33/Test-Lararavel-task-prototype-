@@ -24,7 +24,7 @@ Domain Layer. Сам проект находиться в папке MyProject.
 ### Команда для выполнения миграций для модуля UserModule:
 - php artisan migrate --path=MyProject/UserModule/Infrastructure/Migrations/
 
-###Команда для выполнения тестов:
+### Команда для выполнения тестов:
 - vendor\bin\phpunit tests\UserModule\
 
 
