@@ -21,6 +21,8 @@ Domain Layer. Сам проект находиться в папке MyProject.
  репозитории, интерфейсы, а так же миграции для создания таблиц модуля.
 - Providers: храниться провайдер для модуля. 
 
+### Перед стартом приложения добавить .env файл (изменить настройки базы данных под MySql)
+
 ### Команда для выполнения миграций для модуля UserModule:
 - php artisan migrate --path=MyProject/UserModule/Infrastructure/Migrations/
 
