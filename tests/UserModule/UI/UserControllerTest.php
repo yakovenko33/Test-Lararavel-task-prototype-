@@ -82,7 +82,7 @@ class UserControllerTest extends TestCase
             ],
             [
                 array_merge($request, ["email" => "test@gmail.com"]),
-                ["user_id" => 2],
+                ["user_id" => 1],
                 "success",
                 201,
             ],
@@ -107,18 +107,8 @@ class UserControllerTest extends TestCase
                 400,
             ],
             [
-                array_merge($request, ["password" => 1111]),
-                [
-                    "password" => [
-                        'The password must be a string.'
-                    ]
-                ],
-                "errors",
-                400,
-            ],
-            [
                 array_merge($request, ["password" => "testPassword"]),
-                ["user_id" => 3],
+                ["user_id" => 1],
                 "success",
                 201,
             ],
@@ -143,16 +133,6 @@ class UserControllerTest extends TestCase
                 400,
             ],
             [
-                array_merge($request, ["password_repeat" => 1111]),
-                [
-                    "password_repeat" => [
-                        'The password repeat must be a string.'
-                    ]
-                ],
-                "errors",
-                400,
-            ],
-            [
                 array_merge($request, ["password_repeat" => "testPasswordRepeat"]),
                 [
                     "password_repeat" => [
@@ -164,7 +144,7 @@ class UserControllerTest extends TestCase
             ],
             [
                 array_merge($request, ["password_repeat" => "testPassword"]),
-                ["user_id" => 4],
+                ["user_id" => 1],
                 "success",
                 201,
             ],
@@ -197,7 +177,7 @@ class UserControllerTest extends TestCase
         $responseRegister
             ->assertStatus(201)
             ->assertJson([
-                "data" => ["user_id" => 5],
+                "data" => ["user_id" => 1],
                 "status" => "success",
             ]);
 
